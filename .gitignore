@@ -1,0 +1,4 @@
+node_modules/
+*.log
+test/verify/*.log
+.DS_Store
