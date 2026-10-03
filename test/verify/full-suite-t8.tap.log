@@ -1,0 +1,775 @@
+﻿TAP version 13
+# Subtest: AIMD: starts at aimdInitialConcurrent (null ⇒ ceil(maxConcurrent / 2))
+ok 1 - AIMD: starts at aimdInitialConcurrent (null ⇒ ceil(maxConcurrent / 2))
+  ---
+  duration_ms: 7.6003
+  type: 'test'
+  ...
+# Subtest: AIMD: additive increase every `aimdIncreaseEvery` clean settles
+ok 2 - AIMD: additive increase every `aimdIncreaseEvery` clean settles
+  ---
+  duration_ms: 0.8611
+  type: 'test'
+  ...
+# Subtest: AIMD: multiplicative decrease on a throttle, floored at minConcurrent
+ok 3 - AIMD: multiplicative decrease on a throttle, floored at minConcurrent
+  ---
+  duration_ms: 0.706
+  type: 'test'
+  ...
+# Subtest: AIMD: effectiveConcurrency is clamped to [minConcurrent, maxConcurrent]
+ok 4 - AIMD: effectiveConcurrency is clamped to [minConcurrent, maxConcurrent]
+  ---
+  duration_ms: 0.6506
+  type: 'test'
+  ...
+# Subtest: AIMD: a throttle resets the success streak
+ok 5 - AIMD: a throttle resets the success streak
+  ---
+  duration_ms: 0.5606
+  type: 'test'
+  ...
+# Subtest: AIMD: a wait-timeout decreases only when aimdTimeoutDecrease is on
+ok 6 - AIMD: a wait-timeout decreases only when aimdTimeoutDecrease is on
+  ---
+  duration_ms: 0.7379
+  type: 'test'
+  ...
+# Subtest: AIMD: snapshot reports the documented fields
+ok 7 - AIMD: snapshot reports the documented fields
+  ---
+  duration_ms: 2.1667
+  type: 'test'
+  ...
+# Subtest: config schema: 8 v1 keys + 22 v2 keys = 30 resolved keys
+ok 8 - config schema: 8 v1 keys + 22 v2 keys = 30 resolved keys
+  ---
+  duration_ms: 5.0146
+  type: 'test'
+  ...
+# Subtest: defaults: resolveConfig({}) matches the spec table exactly
+ok 9 - defaults: resolveConfig({}) matches the spec table exactly
+  ---
+  duration_ms: 1.4652
+  type: 'test'
+  ...
+# Subtest: defaults: CONFIG_DEFAULTS mirrors the resolved defaults
+ok 10 - defaults: CONFIG_DEFAULTS mirrors the resolved defaults
+  ---
+  duration_ms: 0.6556
+  type: 'test'
+  ...
+# Subtest: resolveConfig is idempotent for raw, resolved and undefined inputs
+ok 11 - resolveConfig is idempotent for raw, resolved and undefined inputs
+  ---
+  duration_ms: 1.787
+  type: 'test'
+  ...
+# Subtest: v1-only config: every new key stays at its neutral default
+ok 12 - v1-only config: every new key stays at its neutral default
+  ---
+  duration_ms: 0.6998
+  type: 'test'
+  ...
+# Subtest: validation: invalid values fall back to the default and warn once each
+ok 13 - validation: invalid values fall back to the default and warn once each
+  ---
+  duration_ms: 1.693
+  type: 'test'
+  ...
+# Subtest: validation: an invalid cooldownMaxMs falls back to cooldownBaseMs * 16
+ok 14 - validation: an invalid cooldownMaxMs falls back to cooldownBaseMs * 16
+  ---
+  duration_ms: 0.4567
+  type: 'test'
+  ...
+# Subtest: validation: fractional limits are floored, not rejected
+ok 15 - validation: fractional limits are floored, not rejected
+  ---
+  duration_ms: 0.5634
+  type: 'test'
+  ...
+# Subtest: clamping: minConcurrent never exceeds maxConcurrent
+ok 16 - clamping: minConcurrent never exceeds maxConcurrent
+  ---
+  duration_ms: 0.533
+  type: 'test'
+  ...
+# Subtest: clamping: aimdInitialConcurrent is materialized and clamped into range
+ok 17 - clamping: aimdInitialConcurrent is materialized and clamped into range
+  ---
+  duration_ms: 0.7417
+  type: 'test'
+  ...
+# Subtest: providers: entries are trimmed, empties dropped, non-arrays rejected
+ok 18 - providers: entries are trimmed, empties dropped, non-arrays rejected
+  ---
+  duration_ms: 0.6749
+  type: 'test'
+  ...
+# Subtest: normalizeLimiterOptions: subset only, idempotent, v1 config accepted
+ok 19 - normalizeLimiterOptions: subset only, idempotent, v1 config accepted
+  ---
+  duration_ms: 3.4987
+  type: 'test'
+  ...
+# Subtest: jitteredWindow: none is exact, equal/full follow the injected rng
+ok 20 - jitteredWindow: none is exact, equal/full follow the injected rng
+  ---
+  duration_ms: 5.6879
+  type: 'test'
+  ...
+# Subtest: Cooldown: Retry-After is used verbatim and never jittered
+ok 21 - Cooldown: Retry-After is used verbatim and never jittered
+  ---
+  duration_ms: 0.9244
+  type: 'test'
+  ...
+# Subtest: Cooldown: the v1 escalation ladder doubles and caps at cooldownMaxMs
+ok 22 - Cooldown: the v1 escalation ladder doubles and caps at cooldownMaxMs
+  ---
+  duration_ms: 3.0417
+  type: 'test'
+  ...
+# Subtest: Cooldown: a locally computed window is jittered
+ok 23 - Cooldown: a locally computed window is jittered
+  ---
+  duration_ms: 0.7823
+  type: 'test'
+  ...
+# Subtest: Cooldown: 503/529 windows get the overload multiplier
+ok 24 - Cooldown: 503/529 windows get the overload multiplier
+  ---
+  duration_ms: 0.9145
+  type: 'test'
+  ...
+# Subtest: Cooldown: close resets the ladder only when hysteresis is disabled
+ok 25 - Cooldown: close resets the ladder only when hysteresis is disabled
+  ---
+  duration_ms: 0.7188
+  type: 'test'
+  ...
+# Subtest: Cooldown: an observation cancels a pending hysteresis decay
+ok 26 - Cooldown: an observation cancels a pending hysteresis decay
+  ---
+  duration_ms: 0.4836
+  type: 'test'
+  ...
+# Subtest: ProviderLimiter: hysteresis survives window close and successes, then decays
+ok 27 - ProviderLimiter: hysteresis survives window close and successes, then decays
+  ---
+  duration_ms: 8.2726
+  type: 'test'
+  ...
+# Subtest: ProviderLimiter: drip release staggers the post-cooldown drain
+ok 28 - ProviderLimiter: drip release staggers the post-cooldown drain
+  ---
+  duration_ms: 3.1095
+  type: 'test'
+  ...
+# Subtest: ProviderLimiter: without drip release the drain is one tick (v1 behaviour)
+ok 29 - ProviderLimiter: without drip release the drain is one tick (v1 behaviour)
+  ---
+  duration_ms: 1.1482
+  type: 'test'
+  ...
+# apply test passed
+# llm/stream gate test passed
+# ungoverned route test passed
+# 429 observation test passed
+# non-429 passthrough test passed
+# disabled test passed
+# web route test passed
+# index integration tests: all passed
+# Subtest: test\\index.test.js
+ok 4 - test\\index.test.js
+  ---
+  duration_ms: 226.8635
+  type: 'test'
+  ...
+# limiter unit tests: all passed
+# Subtest: test\\limiter.test.js
+ok 5 - test\\limiter.test.js
+  ---
+  duration_ms: 503.5766
+  type: 'test'
+  ...
+# Subtest: classify: purpose mapping and the unknown-purpose default
+ok 32 - classify: purpose mapping and the unknown-purpose default
+  ---
+  duration_ms: 9.5934
+  type: 'test'
+  ...
+# Subtest: keyFor: sessionId or the anonymous key
+ok 33 - keyFor: sessionId or the anonymous key
+  ---
+  duration_ms: 0.4869
+  type: 'test'
+  ...
+# Subtest: FifoQueue: v1 FIFO discipline, size, remove and clear
+ok 34 - FifoQueue: v1 FIFO discipline, size, remove and clear
+  ---
+  duration_ms: 0.945
+  type: 'test'
+  ...
+# Subtest: FairQueue: strides follow the weights (6:2:1 ⇒ 10/30/60)
+ok 35 - FairQueue: strides follow the weights (6:2:1 ⇒ 10/30/60)
+  ---
+  duration_ms: 2.1722
+  type: 'test'
+  ...
+# Subtest: FairQueue: admission order under contention is interactive, background, utility
+ok 36 - FairQueue: admission order under contention is interactive, background, utility
+  ---
+  duration_ms: 1.7362
+  type: 'test'
+  ...
+# Subtest: FairQueue: weighted share over 90 grants is exactly 6:2:1
+ok 37 - FairQueue: weighted share over 90 grants is exactly 6:2:1
+  ---
+  duration_ms: 2.0706
+  type: 'test'
+  ...
+# Subtest: FairQueue: no class is skipped for more than 8 consecutive grants
+ok 38 - FairQueue: no class is skipped for more than 8 consecutive grants
+  ---
+  duration_ms: 3.0655
+  type: 'test'
+  ...
+# Subtest: FairQueue: per-session round-robin stops one session from taking every slot
+ok 39 - FairQueue: per-session round-robin stops one session from taking every slot
+  ---
+  duration_ms: 0.773
+  type: 'test'
+  ...
+# Subtest: FairQueue: aging override forces the oldest waiter past the stride schedule
+ok 40 - FairQueue: aging override forces the oldest waiter past the stride schedule
+  ---
+  duration_ms: 0.7178
+  type: 'test'
+  ...
+# Subtest: FairQueue: pass overflow guard keeps the counters bounded
+ok 41 - FairQueue: pass overflow guard keeps the counters bounded
+  ---
+  duration_ms: 0.8164
+  type: 'test'
+  ...
+# Subtest: ProviderLimiter (fairness): a greedy session cannot take every slot
+ok 42 - ProviderLimiter (fairness): a greedy session cannot take every slot
+  ---
+  duration_ms: 16.8741
+  type: 'test'
+  ...
+# Subtest: FairQueue: a drained session keeps its service counter across re-arrival
+ok 43 - FairQueue: a drained session keeps its service counter across re-arrival
+  ---
+  duration_ms: 0.9347
+  type: 'test'
+  ...
+# Subtest: FairQueue: retained service counters are bounded by count and by value
+ok 44 - FairQueue: retained service counters are bounded by count and by value
+  ---
+  duration_ms: 20.5031
+  type: 'test'
+  ...
+# Subtest: ProviderLimiter (fairness): a drained session that re-arrives does not monopolise (F1)
+ok 45 - ProviderLimiter (fairness): a drained session that re-arrives does not monopolise (F1)
+  ---
+  duration_ms: 19.3504
+  type: 'test'
+  ...
+# Subtest: estimateInputTokens: local heuristic without a tokenMeter
+ok 46 - estimateInputTokens: local heuristic without a tokenMeter
+  ---
+  duration_ms: 4.5653
+  type: 'test'
+  ...
+# Subtest: estimateInputTokens: prefers tokenMeter.estimateMessage for sourced messages
+ok 47 - estimateInputTokens: prefers tokenMeter.estimateMessage for sourced messages
+  ---
+  duration_ms: 0.6835
+  type: 'test'
+  ...
+# Subtest: estimateInputTokens: a throwing or odd tokenMeter falls back, never throws
+ok 48 - estimateInputTokens: a throwing or odd tokenMeter falls back, never throws
+  ---
+  duration_ms: 2.1086
+  type: 'test'
+  ...
+# Subtest: estimateInputTokens: odd payloads contribute 0 instead of throwing
+ok 49 - estimateInputTokens: odd payloads contribute 0 instead of throwing
+  ---
+  duration_ms: 0.8616
+  type: 'test'
+  ...
+# Subtest: reservationFor: disabled TPM costs nothing, enabled TPM adds the output reserve
+ok 50 - reservationFor: disabled TPM costs nothing, enabled TPM adds the output reserve
+  ---
+  duration_ms: 0.7629
+  type: 'test'
+  ...
+# Subtest: usageTokens: never NaN, tolerates odd usage objects
+ok 51 - usageTokens: never NaN, tolerates odd usage objects
+  ---
+  duration_ms: 0.8671
+  type: 'test'
+  ...
+# Subtest: apply: a host with no optional services degrades non-fatally
+ok 52 - apply: a host with no optional services degrades non-fatally
+  ---
+  duration_ms: 12.3589
+  type: 'test'
+  ...
+# Subtest: apply: one listener, one prompt section, one web route, one command
+ok 53 - apply: one listener, one prompt section, one web route, one command
+  ---
+  duration_ms: 1.4452
+  type: 'test'
+  ...
+# Subtest: apply: the state route is GET-only and the snapshot is a v1 superset
+ok 54 - apply: the state route is GET-only and the snapshot is a v1 superset
+  ---
+  duration_ms: 6.2143
+  type: 'test'
+  ...
+# Subtest: apply: the /rate-limit command report is deterministic and ASCII-only
+ok 55 - apply: the /rate-limit command report is deterministic and ASCII-only
+  ---
+  duration_ms: 4.2802
+  type: 'test'
+  ...
+# Subtest: apply: services announced after apply() are picked up
+ok 56 - apply: services announced after apply() are picked up
+  ---
+  duration_ms: 1.9572
+  type: 'test'
+  ...
+# Subtest: gateStream: chunks pass through unchanged and settle exactly once
+ok 57 - gateStream: chunks pass through unchanged and settle exactly once
+  ---
+  duration_ms: 6.6618
+  type: 'test'
+  ...
+# Subtest: gateStream: terminal error/aborted finishes settle with the right kind
+ok 58 - gateStream: terminal error/aborted finishes settle with the right kind
+  ---
+  duration_ms: 3.2435
+  type: 'test'
+  ...
+# Subtest: gateStream: a queued request that exhausts maxWaitMs yields the v1 timeout failure
+ok 59 - gateStream: a queued request that exhausts maxWaitMs yields the v1 timeout failure
+  ---
+  duration_ms: 25.3275
+  type: 'test'
+  ...
+# Subtest: gateStream: queue-full and budget-exceeded shed immediately, never queued
+ok 60 - gateStream: queue-full and budget-exceeded shed immediately, never queued
+  ---
+  duration_ms: 2.515
+  type: 'test'
+  ...
+# Subtest: AIMD wiring: settle feeds increase on success and decrease on a throttle
+ok 61 - AIMD wiring: settle feeds increase on success and decrease on a throttle
+  ---
+  duration_ms: 3.0089
+  type: 'test'
+  ...
+# Subtest: gateStream: an aborted wait is reported as a cancellation, not a throttle error
+ok 62 - gateStream: an aborted wait is reported as a cancellation, not a throttle error
+  ---
+  duration_ms: 1.9508
+  type: 'test'
+  ...
+# Subtest: gateStream: a consumer that abandons the stream releases the slot
+ok 63 - gateStream: a consumer that abandons the stream releases the slot
+  ---
+  duration_ms: 0.9786
+  type: 'test'
+  ...
+# Subtest: gateStream: a throwing source is re-thrown unchanged after settling
+ok 64 - gateStream: a throwing source is re-thrown unchanged after settling
+  ---
+  duration_ms: 2.4487
+  type: 'test'
+  ...
+# Subtest: gateStream: an abort while in flight settles immediately
+ok 65 - gateStream: an abort while in flight settles immediately
+  ---
+  duration_ms: 1.6439
+  type: 'test'
+  ...
+# Subtest: timer anchor: exactly one refd handle while a waiter is queued, none when idle
+ok 66 - timer anchor: exactly one refd handle while a waiter is queued, none when idle
+  ---
+  duration_ms: 2.7311
+  type: 'test'
+  ...
+# Subtest: dispose: refuses every waiter, clears every timer, and nothing resolves afterwards
+ok 67 - dispose: refuses every waiter, clears every timer, and nothing resolves afterwards
+  ---
+  duration_ms: 2.9348
+  type: 'test'
+  ...
+# Subtest: no slot leak across 1000+ release/abort/timeout cycles
+ok 68 - no slot leak across 1000+ release/abort/timeout cycles
+  ---
+  duration_ms: 158.6376
+  type: 'test'
+  ...
+# Subtest: spec evidence: the v1 test files are byte-identical
+ok 69 - spec evidence: the v1 test files are byte-identical
+  ---
+  duration_ms: 2.1563
+  type: 'test'
+  ...
+# Subtest: spec evidence: package.json is 2.0.0 and declares no runtime dependencies
+ok 70 - spec evidence: package.json is 2.0.0 and declares no runtime dependencies
+  ---
+  duration_ms: 0.6699
+  type: 'test'
+  ...
+# Subtest: spec evidence: cordis.patch.yml documents every new key and the shipped values
+ok 71 - spec evidence: cordis.patch.yml documents every new key and the shipped values
+  ---
+  duration_ms: 3.6871
+  type: 'test'
+  ...
+# Subtest: spec evidence: README documents the new keys and the remaining limitations
+ok 72 - spec evidence: README documents the new keys and the remaining limitations
+  ---
+  duration_ms: 0.7425
+  type: 'test'
+  ...
+# Subtest: RPM budget: admission is charged at grant and the next request queues
+ok 73 - RPM budget: admission is charged at grant and the next request queues
+  ---
+  duration_ms: 0.7158
+  type: 'test'
+  ...
+# Subtest: TPM budget: a reservation rejects the next request until it settles or expires
+ok 74 - TPM budget: a reservation rejects the next request until it settles or expires
+  ---
+  duration_ms: 0.6295
+  type: 'test'
+  ...
+# Subtest: createLimiters: the "*" fallback and per-provider routes are preserved
+ok 75 - createLimiters: the "*" fallback and per-provider routes are preserved
+  ---
+  duration_ms: 0.4089
+  type: 'test'
+  ...
+# Subtest: F1R-1: the original idle-route re-arrival counterexample now orders A\#1, B, A\#2
+ok 76 - F1R-1: the original idle-route re-arrival counterexample now orders A\#1, B, A\#2
+  ---
+  duration_ms: 19.5194
+  type: 'test'
+  ...
+# Subtest: F1R-2 (i): three sessions with interleaved drain/re-arrival rotate fairly at maxConcurrent=1
+ok 77 - F1R-2 (i): three sessions with interleaved drain/re-arrival rotate fairly at maxConcurrent=1
+  ---
+  duration_ms: 7.9798
+  type: 'test'
+  ...
+# Subtest: F1R-3 (ii): the A,A,B sequence stays fair at maxConcurrent=3
+ok 78 - F1R-3 (ii): the A,A,B sequence stays fair at maxConcurrent=3
+  ---
+  duration_ms: 2.9388
+  type: 'test'
+  ...
+# Subtest: F1R-4 (iii): a session that fully drains and re-arrives six times never gets two consecutive grants
+ok 79 - F1R-4 (iii): a session that fully drains and re-arrives six times never gets two consecutive grants
+  ---
+  duration_ms: 5.7661
+  type: 'test'
+  ...
+# Subtest: F1R-5: across arbitrary drain/re-arrival the granted session is always the minimum-served backlogged session
+ok 80 - F1R-5: across arbitrary drain/re-arrival the granted session is always the minimum-served backlogged session
+  ---
+  duration_ms: 19.4026
+  type: 'test'
+  ...
+# Subtest: F1R-6: retained fairness state is bounded by count (1024) and by value (16)
+ok 81 - F1R-6: retained fairness state is bounded by count (1024) and by value (16)
+  ---
+  duration_ms: 150.1678
+  type: 'test'
+  ...
+# Subtest: F1R-7: dispose releases the retained fairness state
+ok 82 - F1R-7: dispose releases the retained fairness state
+  ---
+  duration_ms: 1.6244
+  type: 'test'
+  ...
+# Subtest: F1R-8: the drain/re-arrival rotation also holds inside the utility class
+ok 83 - F1R-8: the drain/re-arrival rotation also holds inside the utility class
+  ---
+  duration_ms: 4.6705
+  type: 'test'
+  ...
+# Subtest: F1R-10: the counterexamples detect the pre-repair behaviour (discrimination check)
+ok 84 - F1R-10: the counterexamples detect the pre-repair behaviour (discrimination check)
+  ---
+  duration_ms: 7.943
+  type: 'test'
+  ...
+# Subtest: F1R-11: aging still forces a heavily-served returning session past the retained counter
+ok 85 - F1R-11: aging still forces a heavily-served returning session past the retained counter
+  ---
+  duration_ms: 3.7881
+  type: 'test'
+  ...
+# Subtest: F1R-9: README cooldown formula matches the implemented cooldown machine
+ok 86 - F1R-9: README cooldown formula matches the implemented cooldown machine
+  ---
+  duration_ms: 5.9287
+  type: 'test'
+  ...
+# Subtest: ADV-a: sliding-window RPM accounting is exact under a burst and after simulated clock advancement
+ok 87 - ADV-a: sliding-window RPM accounting is exact under a burst and after simulated clock advancement
+  ---
+  duration_ms: 21.742
+  type: 'test'
+  ...
+# Subtest: ADV-a2: the RPM sliding-window log stays bounded while used() stays exact
+ok 88 - ADV-a2: the RPM sliding-window log stays bounded while used() stays exact
+  ---
+  duration_ms: 4.8439
+  type: 'test'
+  ...
+# Subtest: ADV-b: per-session fairness: a flooding session does not starve a single-request session
+ok 89 - ADV-b: per-session fairness: a flooding session does not starve a single-request session
+  ---
+  duration_ms: 12.689
+  type: 'test'
+  ...
+# Subtest: ADV-b2: FALSIFICATION: the §5.5 anti-monopoly guarantee does not hold across an emptied key list
+ok 90 - ADV-b2: FALSIFICATION: the §5.5 anti-monopoly guarantee does not hold across an emptied key list
+  ---
+  duration_ms: 1.966
+  type: 'test'
+  ...
+# Subtest: ADV-c: AIMD converges and stays within [minConcurrent, maxConcurrent] across a 429/success pattern
+ok 91 - ADV-c: AIMD converges and stays within [minConcurrent, maxConcurrent] across a 429/success pattern
+  ---
+  duration_ms: 1.7835
+  type: 'test'
+  ...
+# Subtest: ADV-c2: wired AIMD feedback from settle() stays inside its configured bounds
+ok 92 - ADV-c2: wired AIMD feedback from settle() stays inside its configured bounds
+  ---
+  duration_ms: 2.2191
+  type: 'test'
+  ...
+# Subtest: ADV-d: cooldown release is staggered: waiters are not all released in the same millisecond
+ok 93 - ADV-d: cooldown release is staggered: waiters are not all released in the same millisecond
+  ---
+  duration_ms: 6.5895
+  type: 'test'
+  ...
+# Subtest: ADV-e: no slot leaks across 1000 mixed acquire/abort/timeout/release cycles
+ok 94 - ADV-e: no slot leaks across 1000 mixed acquire/abort/timeout/release cycles
+  ---
+  duration_ms: 106.6043
+  type: 'test'
+  ...
+# Subtest: ADV-f: disposal leaves no pending timer and no post-disposal waiter resolution
+ok 95 - ADV-f: disposal leaves no pending timer and no post-disposal waiter resolution
+  ---
+  duration_ms: 4.587
+  type: 'test'
+  ...
+# Subtest: ADV-g: the deep-frozen options object is never mutated and never attempted to be mutated
+ok 96 - ADV-g: the deep-frozen options object is never mutated and never attempted to be mutated
+  ---
+  duration_ms: 9.7948
+  type: 'test'
+  ...
+# Subtest: ADV-p: gateStream passes the numeric usageTokens() value in details.usage (§5.4), not the raw usage chunk
+ok 97 - ADV-p: gateStream passes the numeric usageTokens() value in details.usage (§5.4), not the raw usage chunk
+  ---
+  duration_ms: 2.4561
+  type: 'test'
+  ...
+# Subtest: ADV-q: TokenWindow is inert at limit 0 (reserve returns null, used/eligibleAt are 0)
+ok 98 - ADV-q: TokenWindow is inert at limit 0 (reserve returns null, used/eligibleAt are 0)
+  ---
+  duration_ms: 0.3733
+  type: 'test'
+  ...
+# Subtest: ADV-h: an abort racing a slot release resolves exactly once, in the right disposition
+ok 99 - ADV-h: an abort racing a slot release resolves exactly once, in the right disposition
+  ---
+  duration_ms: 3.9549
+  type: 'test'
+  ...
+# Subtest: ADV-i: two routes keep independent queues and budgets
+ok 100 - ADV-i: two routes keep independent queues and budgets
+  ---
+  duration_ms: 3.9982
+  type: 'test'
+  ...
+# Subtest: ADV-j: throttle semantics: empty queue, ladder, cap, Retry-After and 503 multiplier
+ok 101 - ADV-j: throttle semantics: empty queue, ladder, cap, Retry-After and 503 multiplier
+  ---
+  duration_ms: 1.4666
+  type: 'test'
+  ...
+# Subtest: ADV-k: timers: exactly one refd anchor while a waiter is queued, none when idle
+ok 102 - ADV-k: timers: exactly one refd anchor while a waiter is queued, none when idle
+  ---
+  duration_ms: 1.9147
+  type: 'test'
+  ...
+# Subtest: ADV-l: TPM accounting: reservation, settlement, budget-exceeded and conservative expiry
+ok 103 - ADV-l: TPM accounting: reservation, settlement, budget-exceeded and conservative expiry
+  ---
+  duration_ms: 2.0987
+  type: 'test'
+  ...
+# Subtest: ADV-m: queue cap and FIFO vs fairness shed order are enforced
+ok 104 - ADV-m: queue cap and FIFO vs fairness shed order are enforced
+  ---
+  duration_ms: 1.4587
+  type: 'test'
+  ...
+# Subtest: ADV-n: fairness classes and aging override behave as specified
+ok 105 - ADV-n: fairness classes and aging override behave as specified
+  ---
+  duration_ms: 14.5449
+  type: 'test'
+  ...
+# Subtest: ADV-o: jitteredWindow and Cooldown pure semantics
+ok 106 - ADV-o: jitteredWindow and Cooldown pure semantics
+  ---
+  duration_ms: 0.4838
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-1: all 30 config keys resolve; the 22 v2 keys default to the neutral v1-equivalent values
+ok 107 - CLAIM-t3-1: all 30 config keys resolve; the 22 v2 keys default to the neutral v1-equivalent values
+  ---
+  duration_ms: 11.2247
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-2: cordis.patch.yml ships exactly the §3.5 block and leaves the two omitted keys neutral
+ok 108 - CLAIM-t3-2: cordis.patch.yml ships exactly the §3.5 block and leaves the two omitted keys neutral
+  ---
+  duration_ms: 4.6121
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-3: the two v1 test files match the spec-pinned v1 hashes and are still v1-only
+ok 109 - CLAIM-t3-3: the two v1 test files match the spec-pinned v1 hashes and are still v1-only
+  ---
+  duration_ms: 6.0928
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-4: package.json is 2.0.0 with no runtime dependencies and only optional peers
+ok 110 - CLAIM-t3-4: package.json is 2.0.0 with no runtime dependencies and only optional peers
+  ---
+  duration_ms: 1.9987
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-5: the file plan exists: 9 lib modules + v1 tests + 7 new test files + docs
+ok 111 - CLAIM-t3-5: the file plan exists: 9 lib modules + v1 tests + 7 new test files + docs
+  ---
+  duration_ms: 2.4196
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-6: the state snapshot is a JSON-serializable v1 superset and the report is ASCII + deterministic
+ok 112 - CLAIM-t3-6: the state snapshot is a JSON-serializable v1 superset and the report is ASCII + deterministic
+  ---
+  duration_ms: 7.6117
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-7: lib/*.js imports only relative modules and never a runtime dependency
+ok 113 - CLAIM-t3-7: lib/*.js imports only relative modules and never a runtime dependency
+  ---
+  duration_ms: 9.421
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-8: the v1 public API surface is preserved
+ok 114 - CLAIM-t3-8: the v1 public API surface is preserved
+  ---
+  duration_ms: 3.0038
+  type: 'test'
+  ...
+# Subtest: CLAIM-t3-9: the five pure modules read no clock, no RNG and no timers of their own
+ok 115 - CLAIM-t3-9: the five pure modules read no clock, no RNG and no timers of their own
+  ---
+  duration_ms: 4.3326
+  type: 'test'
+  ...
+# Subtest: RequestWindow: disabled when the limit is 0
+ok 116 - RequestWindow: disabled when the limit is 0
+  ---
+  duration_ms: 7.7896
+  type: 'test'
+  ...
+# Subtest: RequestWindow: exact sliding-window admission and rejection
+ok 117 - RequestWindow: exact sliding-window admission and rejection
+  ---
+  duration_ms: 0.4426
+  type: 'test'
+  ...
+# Subtest: RequestWindow: the (limit + 1)-th admission waits for the right entry
+ok 118 - RequestWindow: the (limit + 1)-th admission waits for the right entry
+  ---
+  duration_ms: 0.791
+  type: 'test'
+  ...
+# Subtest: RequestWindow: the log is bounded by the limit and the cursor compacts
+ok 119 - RequestWindow: the log is bounded by the limit and the cursor compacts
+  ---
+  duration_ms: 3.2621
+  type: 'test'
+  ...
+# Subtest: TokenWindow: disabled when the limit is 0
+ok 120 - TokenWindow: disabled when the limit is 0
+  ---
+  duration_ms: 1.2697
+  type: 'test'
+  ...
+# Subtest: TokenWindow: budget admission and rejection
+ok 121 - TokenWindow: budget admission and rejection
+  ---
+  duration_ms: 0.7677
+  type: 'test'
+  ...
+# Subtest: TokenWindow: eligibleAt walks entries until enough expires
+ok 122 - TokenWindow: eligibleAt walks entries until enough expires
+  ---
+  duration_ms: 0.5538
+  type: 'test'
+  ...
+# Subtest: TokenWindow: usage settles the reservation and returns headroom
+ok 123 - TokenWindow: usage settles the reservation and returns headroom
+  ---
+  duration_ms: 0.5889
+  type: 'test'
+  ...
+# Subtest: TokenWindow: a missing or non-finite usage keeps the full charge
+ok 124 - TokenWindow: a missing or non-finite usage keeps the full charge
+  ---
+  duration_ms: 0.7274
+  type: 'test'
+  ...
+# Subtest: TokenWindow: entries expire with the window
+ok 125 - TokenWindow: entries expire with the window
+  ---
+  duration_ms: 0.7375
+  type: 'test'
+  ...
+# Subtest: TokenWindow: compaction conserves tokens and caps the log
+ok 126 - TokenWindow: compaction conserves tokens and caps the log
+  ---
+  duration_ms: 0.796
+  type: 'test'
+  ...
+1..126
+# tests 126
+# suites 0
+# pass 126
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 784.8097

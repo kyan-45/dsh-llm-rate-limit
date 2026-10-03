@@ -1,0 +1,89 @@
+# dsh-llm-rate-limit bundle patch: mounts the rate-limit gate into the host
+# composition.
+#
+# The plugin wraps the `llm/stream` waterfall so every model request passes a
+# per-provider admission queue whose hard gates are: concurrency (static or
+# AIMD), an open cooldown window, an exact sliding-window RPM budget, a
+# sliding-window TPM budget, and drip pacing. Waiting requests are queued by
+# priority class (interactive > background > utility by weight, without strict
+# priority) with per-session round-robin fairness. It complements the built-in
+# `dsh-llm-retry` executor: the gate keeps requests *under* the provider limit,
+# while llm-retry still recovers any 429 that slips through.
+#
+# Every key below is optional. The eight v1 keys keep their v1 meanings; the
+# v2 keys default to the neutral (v1-equivalent) value, so deleting the block
+# below reverts to v1 behaviour. The values here are the shipped safety
+# budgets — not vendor quotas: DeepSeek publishes account-level concurrency
+# only, no RPM/TPM figure.
+#
+# Install: `dsh plugin --profile <name> add ./dsh-llm-rate-limit` (or a
+# git/npm spec), then restart DSH.
+- insert:
+    - id: dsh-llm-rate-limit
+      # Plain package name — must stay in sync with package.json `name`.
+      name: 'dsh-llm-rate-limit'
+      config:
+        # Master switch. Set false to mount the plugin without gating.
+        enabled: true
+        # Provider routes to gate. Empty (or omitted) = every registered
+        # route. Typical single-provider DSH setups: ['deepseek-official'].
+        providers: []
+        # How many provider requests may be in flight at once per route.
+        # DeepSeek's account limit is 2500 (flash) / 500 (pro); keep a
+        # generous margin below that when sharing the account with other
+        # clients. 4 is a safe default for a single DSH installation.
+        maxConcurrent: 4
+        # A queued request waits at most this long for a slot before it is
+        # refused (the step fails with RATE_LIMIT_GATE_TIMEOUT instead of
+        # hanging). 120s covers slow provider responses during a cooldown.
+        maxWaitMs: 120000
+        # Adaptive cooldown windows after an observed 429/503/529. The first
+        # 429 opens `cooldownBaseMs`; each consecutive 429 doubles the window
+        # (2x, 4x, 8x, 16x, capped at cooldownMaxMs). The provider's
+        # Retry-After hint, when present and positive, replaces the base (it
+        # is never jittered); 503/529 windows are additionally multiplied by
+        # `overloadCooldownMultiplier`. With `cooldownHysteresisMs > 0` the
+        # ladder only decays after that much quiet time instead of resetting
+        # on the first success.
+        cooldownBaseMs: 5000
+        cooldownMaxMs: 80000
+        # Inject a short system-prompt note so the model knows parallel work
+        # is gated and may be queued.
+        systemPrompt: true
+        # Order of that section (before the memory section at 100).
+        sectionOrder: 90
+        # --- v2: self-imposed safety budgets (DeepSeek publishes no RPM/TPM figure) ---
+        rpmLimit: 300             # 1 request / 200ms; matched by releaseSpreadMs below
+        rpmWindowMs: 60000
+        tpmLimit: 2000000         # operator-tunable self-imposed ceiling, not a vendor quota
+        tpmWindowMs: 60000
+        tpmOutputReserveTokens: 8192
+        adaptiveConcurrency: true
+        minConcurrent: 1
+        aimdIncreaseEvery: 20
+        aimdDecreaseFactor: 0.5
+        aimdTimeoutDecrease: true
+        fairness: true
+        interactiveWeight: 6
+        backgroundWeight: 2
+        utilityWeight: 1
+        agingThresholdMs: 30000
+        queueLimit: 256
+        releaseSpreadMs: 200
+        cooldownJitter: equal
+        cooldownHysteresisMs: 60000
+        overloadCooldownMultiplier: 2
+        # Keys not listed above keep their neutral schema defaults:
+        #   tpmLogMaxEntries: 4096
+        #   aimdInitialConcurrent: null -> clamp(ceil(maxConcurrent / 2), minConcurrent, maxConcurrent) = 2 here
+        # For reference, the neutral default of every new key (i.e. the value
+        # that reproduces v1 behaviour if the key is omitted) is:
+        #   rpmLimit 0, rpmWindowMs 60000, tpmLimit 0, tpmWindowMs 60000,
+        #   tpmOutputReserveTokens 1024, tpmLogMaxEntries 4096,
+        #   adaptiveConcurrency false, minConcurrent 1,
+        #   aimdInitialConcurrent <derived>, aimdIncreaseEvery 20,
+        #   aimdDecreaseFactor 0.5, aimdTimeoutDecrease true, fairness false,
+        #   interactiveWeight 6, backgroundWeight 2, utilityWeight 1,
+        #   agingThresholdMs 0, queueLimit 256, releaseSpreadMs 0,
+        #   cooldownJitter none, cooldownHysteresisMs 0,
+        #   overloadCooldownMultiplier 1.

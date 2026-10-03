@@ -1,0 +1,55 @@
+{
+  "name": "dsh-llm-rate-limit",
+  "version": "2.0.0",
+  "description": "Proactive LLM rate limiting for DeepSeek Harness — per-provider sliding-window RPM/TPM budgets, AIMD adaptive concurrency, priority + per-session fair queuing and a jittered Retry-After-aware cooldown on the llm/stream waterfall, so requests stay under the provider limit instead of triggering 429s.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./client/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-modules"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-llm": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-llm-retry": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-system-prompt": "^0.2.0-rc.2"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": { "optional": true },
+    "@deepseek-ai/dsh-llm": { "optional": true },
+    "@deepseek-ai/dsh-llm-retry": { "optional": true },
+    "@deepseek-ai/dsh-system-prompt": { "optional": true }
+  },
+  "files": [
+    "lib",
+    "client",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "rate-limit",
+    "rate limiting",
+    "llm",
+    "concurrency",
+    "429"
+  ]
+}
